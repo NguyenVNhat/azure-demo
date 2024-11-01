@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy JAR app to Azure Web App - root
 
 on:
@@ -14,13 +11,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Java version
         uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'microsoft'
+          distribution: 'adopt'  # Bạn có thể sử dụng 'adopt' hoặc 'temurin' cho JDK
 
       - name: Build with Maven
         run: mvn clean install
@@ -38,14 +36,14 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
-  
+      id-token: write  # Required for requesting the JWT
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: java-app
-      
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -57,7 +55,16 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'root'
+          app-name: 'your-app-name'  # Thay đổi tên ứng dụng của bạn tại đây
           slot-name: 'Production'
-          package: '*.jar'
-          
+          package: '*.jar'  # Đảm bảo rằng đường dẫn này là chính xác để tìm file JAR
+
+      - name: Configure App Settings
+        uses: azure/cli@v1
+        with:
+          inlineScript: |
+            az webapp config appsettings set --name your-app-name --resource-group your-resource-group --settings \
+              FACEBOOK_CLIENT_ID=${{ secrets.FACEBOOK_CLIENT_ID }} \
+              FACEBOOK_CLIENT_SECRET=${{ secrets.FACEBOOK_CLIENT_SECRET }} \
+              GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
+              GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
