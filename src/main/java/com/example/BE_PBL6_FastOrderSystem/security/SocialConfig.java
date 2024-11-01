@@ -5,20 +5,20 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 @Data
 @Configuration
-@PropertySource("classpath:application-secrets.properties")
 public class SocialConfig {
 
-    @Value("${FACEBOOK_CLIENT_ID}")
-    private String facebookClientId;
-    
-    @Value("${FACEBOOK_CLIENT_SECRET}")
-    private String facebookClientSecret;
-    
-    @Value("${GOOGLE_CLIENT_ID}")
-    private String googleClientId;
-    
-    @Value("${GOOGLE_CLIENT_SECRET}")
-    private String googleClientSecret;
+@Value("${FACEBOOK_CLIENT_ID}")
+private String facebookClientId;
+
+@Value("${FACEBOOK_CLIENT_SECRET}")
+private String facebookClientSecret;
+
+@Value("${GOOGLE_CLIENT_ID}")
+private String googleClientId;
+
+@Value("${GOOGLE_CLIENT_SECRET}")
+private String googleClientSecret;
+
 
 
 }
