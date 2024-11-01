@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy JAR app to Azure Web App - root
 
 on:
@@ -14,13 +11,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Java version
         uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'microsoft'
+          distribution: 'adopt'
 
       - name: Build with Maven
         run: mvn clean install
@@ -38,26 +36,45 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
-  
+      id-token: write
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: java-app
-      
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_72C36941D327406FA655EAB48BAD8A19 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_EC0777D91D374F30BBB44A80C2769DB9 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_32F7F1BA8C9B4B2DA14983128D310166 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B1D4E6F8443340EAAC5F795E58A0A705 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_0205E796400F482398E2E92A88DC8455 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_15BD05BE807C421DB9E95C67F9251CFB }}
+
+      - name: Set environment variables
+        run: |
+          echo "FACEBOOK_CLIENT_ID=${{ secrets.FACEBOOK_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "FACEBOOK_CLIENT_SECRET=${{ secrets.FACEBOOK_CLIENT_SECRET }}" >> $GITHUB_ENV
+          echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> $GITHUB_ENV
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'root'
+          app-name: 'your-app-name'
           slot-name: 'Production'
           package: '*.jar'
-          
+
+      - name: Configure App Settings
+        uses: azure/cli@v1
+        with:
+          inlineScript: |
+            az webapp config appsettings set --name your-app-name --resource-group your-resource-group --settings \
+              FACEBOOK_CLIENT_ID=${{ secrets.FACEBOOK_CLIENT_ID }} \
+              FACEBOOK_CLIENT_SECRET=${{ secrets.FACEBOOK_CLIENT_SECRET }} \
+              GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
+              GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
+
+      - name: Show Azure Web App logs
+        run: az webapp log tail --name your-app-name --resource-group your-resource-group
