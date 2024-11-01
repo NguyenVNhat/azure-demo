@@ -14,7 +14,7 @@ public class SocialConfig {
     @Value("${FACEBOOK_CLIENT_SECRET}")
     private String facebookClientSecret;
 
-    @Value("${GOOGLE_CLIENT_ID}")
+    @Value("${GOOOGLE_CLIENT_ID}")
     private String googleClientId;
 
     @Value("${GOOGLE_CLIENT_SECRET}")
