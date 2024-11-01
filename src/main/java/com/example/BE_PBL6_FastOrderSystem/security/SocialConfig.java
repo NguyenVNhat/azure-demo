@@ -8,16 +8,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SocialConfig {
 
-    @Value("${secrets.FACEBOOK_CLIENT_ID}")
+    @Value("${FBID}")
     private String facebookClientId;
 
-    @Value("${secrets.FACEBOOK_CLIENT_SECRET}")
+    @Value("${FBSC}")
     private String facebookClientSecret;
 
-    @Value("${secrets.GOOOGLE_CLIENT_ID}")
+    @Value("${GGID}")
     private String googleClientId;
 
-    @Value("${secrets.GOOGLE_CLIENT_SECRET}")
+    @Value("${GGSC}")
     private String googleClientSecret;
 
 }
