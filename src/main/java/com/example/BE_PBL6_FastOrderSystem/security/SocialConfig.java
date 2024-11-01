@@ -9,15 +9,16 @@ import org.springframework.context.annotation.PropertySource;
 public class SocialConfig {
 
     @Value("${FACEBOOK_CLIENT_ID}")
-    private String facebookClientId;
+private String facebookClientId;
 
-    @Value("${FACEBOOK_CLIENT_SECRET}")
-    private String facebookClientSecret;
+@Value("${FACEBOOK_CLIENT_SECRET}")
+private String facebookClientSecret;
 
-    @Value("${GOOGLE_CLIENT_ID}")
-    private String googleClientId;
+@Value("${GOOGLE_CLIENT_ID}")
+private String googleClientId;
 
-    @Value("${GOOGLE_CLIENT_SECRET}")
-    private String googleClientSecret;
+@Value("${GOOGLE_CLIENT_SECRET}")
+private String googleClientSecret;
+
 
 }
