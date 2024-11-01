@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'adopt'  # Bạn có thể sử dụng 'adopt' hoặc 'temurin' cho JDK
+          distribution: 'adopt'
 
       - name: Build with Maven
         run: mvn clean install
@@ -36,7 +36,7 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write  # Required for requesting the JWT
+      id-token: write
 
     steps:
       - name: Download artifact from build job
@@ -51,13 +51,20 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_0205E796400F482398E2E92A88DC8455 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_15BD05BE807C421DB9E95C67F9251CFB }}
 
+      - name: Set environment variables
+        run: |
+          echo "FACEBOOK_CLIENT_ID=${{ secrets.FACEBOOK_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "FACEBOOK_CLIENT_SECRET=${{ secrets.FACEBOOK_CLIENT_SECRET }}" >> $GITHUB_ENV
+          echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> $GITHUB_ENV
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'your-app-name'  # Thay đổi tên ứng dụng của bạn tại đây
+          app-name: 'your-app-name'
           slot-name: 'Production'
-          package: '*.jar'  # Đảm bảo rằng đường dẫn này là chính xác để tìm file JAR
+          package: '*.jar'
 
       - name: Configure App Settings
         uses: azure/cli@v1
@@ -68,3 +75,6 @@ jobs:
               FACEBOOK_CLIENT_SECRET=${{ secrets.FACEBOOK_CLIENT_SECRET }} \
               GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
               GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
+
+      - name: Show Azure Web App logs
+        run: az webapp log tail --name your-app-name --resource-group your-resource-group
