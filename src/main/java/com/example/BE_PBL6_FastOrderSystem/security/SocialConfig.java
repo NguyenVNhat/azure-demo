@@ -1,11 +1,11 @@
 package com.example.BE_PBL6_FastOrderSystem.security;
+
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+
 @Data
 @Configuration
-@PropertySource("classpath:application-secrets.properties")
 public class SocialConfig {
 
     @Value("${FACEBOOK_CLIENT_ID}")
