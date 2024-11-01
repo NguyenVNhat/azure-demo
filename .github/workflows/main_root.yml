@@ -62,7 +62,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'your-app-name'
+          app-name: 'root'
           slot-name: 'Production'
           package: '*.jar'
 
