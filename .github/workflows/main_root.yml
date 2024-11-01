@@ -65,16 +65,3 @@ jobs:
           app-name: 'your-app-name'
           slot-name: 'Production'
           package: '*.jar'
-
-      - name: Configure App Settings
-        uses: azure/cli@v1
-        with:
-          inlineScript: |
-            az webapp config appsettings set --name your-app-name --resource-group your-resource-group --settings \
-              FACEBOOK_CLIENT_ID=${{ secrets.FACEBOOK_CLIENT_ID }} \
-              FACEBOOK_CLIENT_SECRET=${{ secrets.FACEBOOK_CLIENT_SECRET }} \
-              GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
-              GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
-
-      - name: Show Azure Web App logs
-        run: az webapp log tail --name your-app-name --resource-group your-resource-group
