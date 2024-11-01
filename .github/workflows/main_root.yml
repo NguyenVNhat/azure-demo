@@ -56,9 +56,9 @@ jobs:
         with:
           app-name: 'root'
           slot-name: 'Production'
-          package: '*.jar'  # Ensure this line is correct and not mixed with Java code
+          package: '*.jar'
           env: |
-            FACEBOOK_CLIENT_ID=${{ secrets.FBID }}
-            FACEBOOK_CLIENT_SECRET=${{ secrets.FBSC }}
-            GOOGLE_CLIENT_ID=${{ secrets.GGID }}
-            GOOGLE_CLIENT_SECRET=${{ secrets.GGSC }}
+            FACEBOOK_CLIENT_ID=${{ secrets.FACEBOOK_CLIENT_ID }}
+            FACEBOOK_CLIENT_SECRET=${{ secrets.FACEBOOK_CLIENT_SECRET }}
+            GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+            GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
