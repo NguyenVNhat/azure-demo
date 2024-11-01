@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy JAR app to Azure Web App - root
 
 on:
@@ -12,19 +9,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      FACEBOOK_CLIENT_ID: ${{ secrets.FACEBOOK_CLIENT_ID }}
-      FACEBOOK_CLIENT_SECRET: ${{ secrets.FACEBOOK_CLIENT_SECRET }}
-      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Java version
         uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'microsoft'
+          distribution: 'adopt'
 
       - name: Build with Maven
         run: mvn clean install
@@ -42,8 +35,8 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
-  
+      id-token: write  # Required for requesting the JWT
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
@@ -63,5 +56,10 @@ jobs:
         with:
           app-name: 'root'
           slot-name: 'Production'
-          package: '*.jar'
-          
+          package: '*.jar'  # Fixed line with closing quote
+          env: |
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            FACEBOOK_CLIENT_ID=${{ secrets.FACEBOOK_CLIENT_ID }}
+            FACEBOOK_CLIENT_SECRET=${{ secrets.FACEBOOK_CLIENT_SECRET }}
+            GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+            GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
