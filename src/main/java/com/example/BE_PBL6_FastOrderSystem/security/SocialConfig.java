@@ -8,16 +8,16 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:application-secrets.properties")
 public class SocialConfig {
 
-    @Value("${facebook.client.id}")
+    @Value("${FACEBOOK_CLIENT_ID}")
     private String facebookClientId;
 
-    @Value("${facebook.client.secret}")
+    @Value("${FACEBOOK_CLIENT_SECRET}")
     private String facebookClientSecret;
 
-    @Value("${google.client.id}")
+    @Value("${GOOGLE_CLIENT_ID}")
     private String googleClientId;
 
-    @Value("${google.client.secret}")
+    @Value("${GOOGLE_CLIENT_SECRET}")
     private String googleClientSecret;
 
 }
