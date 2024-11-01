@@ -34,8 +34,8 @@ spring:
       client:
         registration:
           google:
-            client-id: ${google.client.id}
-            client-secret: ${google.client.secret}
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
             scope:
               - email
               - profile
@@ -43,8 +43,8 @@ spring:
             authorization-grant-type: authorization_code
             client-name: google
           facebook:
-            client-id: ${facebook.client.id}
-            client-secret: ${facebook.client.secret}
+            client-id: ${FACEBOOK_CLIENT_ID}
+            client-secret: ${FACEBOOK_CLIENT_SECRET}
             scope:
               - email
               - public_profile
