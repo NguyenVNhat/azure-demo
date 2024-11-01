@@ -77,4 +77,4 @@ jobs:
               GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
 
       - name: Show Azure Web App logs
-        run: az webapp log tail --name your-app-name --resource-group your-resource-group
+        run: az webapp log tail --name root --resource-group your-resource-group
